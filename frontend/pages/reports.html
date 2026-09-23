@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Reports - Sales Management System</title>
+
+    <link rel="stylesheet" href="../css/style.css">
+
+</head>
+
+
+<body>
+
+<div class="app">
+
+
+    <!-- Sidebar -->
+
+    <aside class="sidebar">
+
+        <h2>Sales Management</h2>
+
+        <nav>
+
+            <a href="dashboard.html">
+                Dashboard
+            </a>
+
+            <a href="products.html">
+                Products
+            </a>
+
+            <a href="categories.html">
+                Categories
+            </a>
+
+            <a href="customers.html">
+                Customers
+            </a>
+
+            <a href="suppliers.html">
+                Suppliers
+            </a>
+
+            <a href="sales.html">
+                Sales
+            </a>
+
+            <a href="purchases.html">
+                Purchases
+            </a>
+
+            <a href="inventory.html">
+                Inventory
+            </a>
+
+            <a href="invoices.html">
+                Invoices
+            </a>
+
+            <a href="reports.html" class="active">
+                Reports
+            </a>
+
+        </nav>
+
+
+        <a href="login.html" class="logout-btn">
+            Logout
+        </a>
+
+    </aside>
+
+
+
+    <!-- Main Content -->
+
+    <main class="main-content">
+
+
+        <!-- Top Bar -->
+
+        <div class="topbar">
+
+            <h1>
+                Reports
+            </h1>
+
+            <p>
+                View sales and purchase reports
+            </p>
+
+        </div>
+
+
+
+        <!-- Report Filter -->
+
+        <section class="content-section">
+
+            <h2>
+                Generate Report
+            </h2>
+
+
+            <form
+                id="reportForm"
+                class="form-grid"
+            >
+
+
+                <!-- Report Type -->
+
+                <div class="form-group">
+
+                    <label for="reportType">
+                        Report Type
+                    </label>
+
+
+                    <select
+                        id="reportType"
+                        name="report_type"
+                        required
+                    >
+
+                        <option value="">
+                            Select Report Type
+                        </option>
+
+                        <option value="sales">
+                            Sales Report
+                        </option>
+
+                        <option value="purchases">
+                            Purchase Report
+                        </option>
+
+                        <option value="inventory">
+                            Inventory Report
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+
+                <!-- Report Period -->
+
+                <div class="form-group">
+
+                    <label for="reportPeriod">
+                        Report Period
+                    </label>
+
+
+                    <select
+                        id="reportPeriod"
+                        name="report_period"
+                        required
+                    >
+
+                        <option value="">
+                            Select Period
+                        </option>
+
+                        <option value="daily">
+                            Daily
+                        </option>
+
+                        <option value="weekly">
+                            Weekly
+                        </option>
+
+                        <option value="monthly">
+                            Monthly
+                        </option>
+
+                        <option value="custom">
+                            Selected Period
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+
+            <!-- Start Date -->
+            <div class="form-group">
+
+                <label for="startDate">
+                    Start Date
+                </label>
+
+                <input
+                    type="date"
+                    id="startDate"
+                    name="start_date"
+                >
+
+            </div>
+
+
+            <!-- End Date -->
+            <div class="form-group">
+
+                <label for="endDate">
+                    End Date
+                </label>
+
+                <input
+                    type="date"
+                    id="endDate"
+                    name="end_date"
+                    
+                >
+
+            </div>
+
+                
+
+
+
+                <!-- Generate Button -->
+
+                <div class="form-actions">
+
+                    <button
+                        type="submit"
+                        class="btn-primary"
+                    >
+                        Generate Report
+                    </button>
+
+                </div>
+
+
+            </form>
+
+
+            <p id="reportMessage"></p>
+
+        </section>
+
+
+
+        <!-- Report Summary -->
+
+        <section class="content-section">
+
+            <h2>
+                Report Summary
+            </h2>
+
+
+            <div class="dashboard-cards">
+
+
+                <!-- Total Sales -->
+
+                <div class="dashboard-card">
+
+                    <h3>
+                        Total Sales
+                    </h3>
+
+                    <p id="reportTotalSales">
+                        --
+                    </p>
+
+                </div>
+
+
+
+                <!-- Total Purchases -->
+
+                <div class="dashboard-card">
+
+                    <h3>
+                        Total Purchases
+                    </h3>
+
+                    <p id="reportTotalPurchases">
+                        --
+                    </p>
+
+                </div>
+
+
+
+                <!-- Items Sold -->
+
+                <div class="dashboard-card">
+
+                    <h3>
+                        Total Items Sold
+                    </h3>
+
+                    <p id="reportItemsSold">
+                        --
+                    </p>
+
+                </div>
+
+
+
+                <!-- Items Purchased -->
+
+                <div class="dashboard-card">
+
+                    <h3>
+                        Total Items Purchased
+                    </h3>
+
+                    <p id="reportItemsPurchased">
+                        --
+                    </p>
+
+                </div>
+
+
+            </div>
+
+        </section>
+
+
+
+        <!-- Report Table -->
+
+        <section class="content-section">
+
+
+            <div class="section-header">
+
+                <h2>
+                    Report Details
+                </h2>
+
+
+                <button
+                    type="button"
+                    id="printReportBtn"
+                    class="btn-secondary"
+                >
+                    Print Report
+                </button>
+
+            </div>
+
+
+
+            <table class="data-table">
+
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            ID
+                        </th>
+
+                        <th>
+                            Date
+                        </th>
+
+                        <th>
+                            Type
+                        </th>
+
+                        <th>
+                            Product
+                        </th>
+
+                        <th>
+                            Quantity
+                        </th>
+
+                        <th>
+                            Amount
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+
+                <tbody id="reportTableBody">
+
+                    <tr>
+
+                        <td colspan="6">
+                            Generate a report to view data
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+
+            </table>
+
+        </section>
+
+
+    </main>
+
+</div>
+
+
+
+<script src="../js/reports.js"></script>
+
+
+
+
+
+</body>
+
+</html>

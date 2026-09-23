@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Categories - Sales Management System</title>
+
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+
+<div class="app">
+
+    <aside class="sidebar">
+
+        <h2>Sales Management</h2>
+
+        <nav>
+            <a href="dashboard.html">Dashboard</a>
+            <a href="products.html">Products</a>
+            <a href="categories.html" class="active">Categories</a>
+            <a href="customers.html">Customers</a>
+            <a href="suppliers.html">Suppliers</a>
+            <a href="sales.html">Sales</a>
+            <a href="purchases.html">Purchases</a>
+            <a href="inventory.html">Inventory</a>
+            <a href="invoices.html">Invoices</a>
+            <a href="reports.html">Reports</a>
+        </nav>
+
+        <a href="login.html" class="logout-btn">Logout</a>
+
+    </aside>
+
+
+    <main class="main-content">
+
+        <div class="topbar">
+            <h1>Categories</h1>
+            <p>Manage product categories</p>
+        </div>
+
+
+        <section class="content-section">
+
+            <h2>Add Category</h2>
+
+            <form id="categoryForm" class="form-grid">
+
+                <div class="form-group">
+
+                    <label for="categoryName">
+                        Category Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="categoryName"
+                        name="category_name"
+                        placeholder="Enter category name"
+                        required
+                    >
+
+                </div>
+
+                <div class="form-actions">
+
+                    <button type="submit" class="btn-primary">
+                        Add Category
+                    </button>
+
+                </div>
+
+            </form>
+
+            <p id="categoryMessage"></p>
+
+        </section>
+
+
+        <section class="content-section">
+
+            <h2>Category List</h2>
+
+            <table class="data-table">
+
+                <thead>
+
+                    <tr>
+                        <th>ID</th>
+                        <th>Category Name</th>
+                        <th>Created Date</th>
+                        <th>Actions</th>
+                    </tr>
+
+                </thead>
+
+                <tbody id="categoryTableBody">
+
+                    <tr>
+                        <td colspan="4">
+                            No categories available
+                        </td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </section>
+
+    </main>
+
+</div>
+
+<script src="../js/categories.js"></script>
+
+</body>
+</html>

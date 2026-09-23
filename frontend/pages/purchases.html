@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Purchases - Sales Management System</title>
+
+    <link rel="stylesheet" href="../css/style.css">
+
+</head>
+
+<body>
+
+<div class="app">
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+
+        <h2>Sales Management</h2>
+
+        <nav>
+
+            <a href="dashboard.html">
+                Dashboard
+            </a>
+
+            <a href="products.html">
+                Products
+            </a>
+
+            <a href="categories.html">
+                Categories
+            </a>
+
+            <a href="customers.html">
+                Customers
+            </a>
+
+            <a href="suppliers.html">
+                Suppliers
+            </a>
+
+            <a href="sales.html">
+                Sales
+            </a>
+
+            <a href="purchases.html" class="active">
+                Purchases
+            </a>
+
+            <a href="inventory.html">
+                Inventory
+            </a>
+
+            <a href="invoices.html">
+                Invoices
+            </a>
+
+            <a href="reports.html">
+                Reports
+            </a>
+
+        </nav>
+
+        <a href="login.html" class="logout-btn">
+            Logout
+        </a>
+
+    </aside>
+
+
+    <!-- Main Content -->
+    <main class="main-content">
+
+        <div class="topbar">
+
+            <h1>Purchases</h1>
+
+            <p>Record and manage purchases</p>
+
+        </div>
+
+
+        <!-- Record Purchase -->
+        <section class="content-section">
+
+            <h2>Record Purchase</h2>
+
+            <form id="purchaseForm" class="form-grid">
+
+
+                <!-- Supplier -->
+                <div class="form-group">
+
+                    <label for="supplier">
+                        Supplier
+                    </label>
+
+                    <select
+                        id="supplier"
+                        name="supplier_id"
+                    >
+
+                        <option value="">
+                            Select Supplier
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- Product -->
+                <div class="form-group">
+
+                    <label for="purchaseProduct">
+                        Product
+                    </label>
+
+                    <select
+                        id="purchaseProduct"
+                        name="product_id"
+                        required
+                    >
+
+                        <option value="">
+                            Select Product
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- Quantity -->
+                <div class="form-group">
+
+                    <label for="purchaseQuantity">
+                        Quantity
+                    </label>
+
+                    <input
+                        type="number"
+                        id="purchaseQuantity"
+                        name="quantity"
+                        min="1"
+                        placeholder="Enter quantity"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- Purchase Date -->
+                <div class="form-group">
+
+                    <label for="purchaseDate">
+                        Purchase Date
+                    </label>
+
+                    <input
+                        type="date"
+                        id="purchaseDate"
+                        name="purchase_date"
+                    >
+
+                </div>
+
+
+                <!-- Button -->
+                <div class="form-actions">
+
+                    <button
+                        type="submit"
+                        class="btn-primary"
+                    >
+                        Record Purchase
+                    </button>
+
+                </div>
+
+            </form>
+
+
+            <p id="purchaseMessage"></p>
+
+        </section>
+
+
+        <!-- Purchase List -->
+        <section class="content-section">
+
+            <div class="section-header">
+
+                <h2>Purchase List</h2>
+
+                <input
+                    type="text"
+                    id="purchaseSearch"
+                    class="search-input"
+                    placeholder="Search purchases..."
+                >
+
+            </div>
+
+
+            <table class="data-table">
+
+                <thead>
+
+                    <tr>
+
+                        <th>Purchase ID</th>
+
+                        <th>Supplier</th>
+
+                        <th>Product</th>
+
+                        <th>Quantity</th>
+
+                        <th>Purchase Date</th>
+
+                        <th>Actions</th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody id="purchaseTableBody">
+
+                    <tr>
+
+                        <td colspan="6">
+                            No purchases available
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<script src="../js/purchases.js"></script>
+
+</body>
+</html>

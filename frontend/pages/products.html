@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Products - Sales Management System</title>
+
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+
+<div class="app">
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+
+        <h2>Sales Management</h2>
+
+        <nav>
+            <a href="dashboard.html">Dashboard</a>
+            <a href="products.html" class="active">Products</a>
+            <a href="categories.html">Categories</a>
+            <a href="customers.html">Customers</a>
+            <a href="suppliers.html">Suppliers</a>
+            <a href="sales.html">Sales</a>
+            <a href="purchases.html">Purchases</a>
+            <a href="inventory.html">Inventory</a>
+            <a href="invoices.html">Invoices</a>
+            <a href="reports.html">Reports</a>
+        </nav>
+
+        <a href="login.html" class="logout-btn">Logout</a>
+
+    </aside>
+
+
+    <!-- Main Content -->
+    <main class="main-content">
+
+        <div class="topbar">
+            <h1>Products</h1>
+            <p>Manage products</p>
+        </div>
+
+
+        <!-- Add Product -->
+        <section class="content-section">
+
+            <h2>Add Product</h2>
+
+            <form id="productForm" class="form-grid">
+
+                <div class="form-group">
+                    <label for="productName">Product Name</label>
+                    <input
+                        type="text"
+                        id="productName"
+                        name="product_name"
+                        placeholder="Enter product name"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="category">Category</label>
+
+                    <select id="category" name="category_id" required>
+                        <option value="">Select Category</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="price">Price</label>
+
+                    <input
+                        type="number"
+                        id="price"
+                        name="price"
+                        step="0.01"
+                        placeholder="Enter price"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="quantity">Quantity</label>
+
+                    <input
+                        type="number"
+                        id="quantity"
+                        name="quantity"
+                        placeholder="Enter quantity"
+                        required
+                    >
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn-primary">
+                        Add Product
+                    </button>
+                </div>
+
+            </form>
+
+            <p id="productMessage"></p>
+
+        </section>
+
+
+        <!-- Product List -->
+        <section class="content-section">
+
+            <div class="section-header">
+
+                <h2>Product List</h2>
+
+                <input
+                    type="text"
+                    id="productSearch"
+                    placeholder="Search product..."
+                    class="search-input"
+                >
+
+            </div>
+
+
+            <table class="data-table">
+
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Product Name</th>
+                        <th>Category</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+
+                <tbody id="productTableBody">
+
+                    <tr>
+                        <td colspan="6">
+                            No products available
+                        </td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </section>
+
+    </main>
+
+</div>
+
+<script src="../js/products.js"></script>
+
+</body>
+</html>

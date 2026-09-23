@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Inventory - Sales Management System</title>
+
+    <link rel="stylesheet" href="../css/style.css">
+
+</head>
+
+<body>
+
+<div class="app">
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+
+        <h2>Sales Management</h2>
+
+        <nav>
+
+            <a href="dashboard.html">
+                Dashboard
+            </a>
+
+            <a href="products.html">
+                Products
+            </a>
+
+            <a href="categories.html">
+                Categories
+            </a>
+
+            <a href="customers.html">
+                Customers
+            </a>
+
+            <a href="suppliers.html">
+                Suppliers
+            </a>
+
+            <a href="sales.html">
+                Sales
+            </a>
+
+            <a href="purchases.html">
+                Purchases
+            </a>
+
+            <a href="inventory.html" class="active">
+                Inventory
+            </a>
+
+            <a href="invoices.html">
+                Invoices
+            </a>
+
+            <a href="reports.html">
+                Reports
+            </a>
+
+        </nav>
+
+        <a href="login.html" class="logout-btn">
+            Logout
+        </a>
+
+    </aside>
+
+
+    <!-- Main Content -->
+    <main class="main-content">
+
+        <div class="topbar">
+
+            <h1>Inventory</h1>
+
+            <p>View and manage product stock</p>
+
+        </div>
+
+
+        <!-- Inventory Summary -->
+        <div class="dashboard-cards">
+
+            <div class="dashboard-card">
+
+                <h3>Total Products</h3>
+
+                <p id="inventoryTotalProducts">
+                    --
+                </p>
+
+            </div>
+
+
+            <div class="dashboard-card">
+
+                <h3>Total Stock</h3>
+
+                <p id="totalStock">
+                    --
+                </p>
+
+            </div>
+
+
+            <div class="dashboard-card">
+
+                <h3>Low Stock Items</h3>
+
+                <p id="lowStockItems">
+                    --
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- Inventory Table -->
+        <section class="content-section">
+
+            <div class="section-header">
+
+                <h2>Inventory List</h2>
+
+                <input
+                    type="text"
+                    id="inventorySearch"
+                    class="search-input"
+                    placeholder="Search product..."
+                >
+
+            </div>
+
+
+            <table class="data-table">
+
+                <thead>
+
+                    <tr>
+
+                        <th>ID</th>
+
+                        <th>Product Name</th>
+
+                        <th>Category</th>
+
+                        <th>Available Quantity</th>
+
+                        <th>Stock Level</th>
+
+                        <th>Status</th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody id="inventoryTableBody">
+
+                    <tr>
+
+                        <td colspan="6">
+                            No inventory data available
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </section>
+
+
+        <!-- Low Stock -->
+        <section class="content-section">
+
+            <h2>Low Stock Products</h2>
+
+
+            <table class="data-table">
+
+                <thead>
+
+                    <tr>
+
+                        <th>Product ID</th>
+
+                        <th>Product Name</th>
+
+                        <th>Available Quantity</th>
+
+                        <th>Stock Level</th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody id="lowStockTableBody">
+
+                    <tr>
+
+                        <td colspan="4">
+                            No low stock products
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<script src="../js/inventory.js"></script>
+
+</body>
+</html>

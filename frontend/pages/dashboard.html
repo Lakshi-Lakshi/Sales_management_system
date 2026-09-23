@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Dashboard - Sales Management System</title>
+
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+
+    <div class="app">
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+
+            <h2>Sales Management</h2>
+
+            <nav>
+                <a href="dashboard.html" class="active">Dashboard</a>
+                <a href="products.html">Products</a>
+                <a href="categories.html">Categories</a>
+                <a href="customers.html">Customers</a>
+                <a href="suppliers.html">Suppliers</a>
+                <a href="sales.html">Sales</a>
+                <a href="purchases.html">Purchases</a>
+                <a href="inventory.html">Inventory</a>
+                <a href="invoices.html">Invoices</a>
+                <a href="reports.html">Reports</a>
+            </nav>
+
+            <a href="login.html" class="logout-btn">Logout</a>
+
+        </aside>
+
+
+        <!-- Main Content -->
+        <main class="main-content">
+
+            <div class="topbar">
+                <h1>Dashboard</h1>
+                <p>Sales Management System</p>
+            </div>
+
+
+            <!-- Dashboard Cards -->
+            <div class="dashboard-cards">
+
+                <div class="dashboard-card">
+                    <h3>Total Products</h3>
+                    <p id="totalProducts">--</p>
+                </div>
+
+                <div class="dashboard-card">
+                    <h3>Total Customers</h3>
+                    <p id="totalCustomers">--</p>
+                </div>
+
+                <div class="dashboard-card">
+                    <h3>Total Sales</h3>
+                    <p id="totalSales">--</p>
+                </div>
+
+                <div class="dashboard-card">
+                    <h3>Low Stock</h3>
+                    <p id="lowStock">--</p>
+                </div>
+
+            </div>
+
+
+            <!-- Recent Sales -->
+            <section class="content-section">
+
+                <div class="section-header">
+                    <h2>Recent Sales</h2>
+                </div>
+
+                <table class="data-table">
+
+                    <thead>
+                        <tr>
+                            <th>Sale ID</th>
+                            <th>Customer</th>
+                            <th>Product</th>
+                            <th>Quantity</th>
+                            <th>Total</th>
+                            <th>Date</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="recentSalesTable">
+
+                        <tr>
+                            <td colspan="6">
+                                No sales data available
+                            </td>
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </section>
+
+        </main>
+
+    </div>
+
+    <script src="../js/dashboard.js"></script>
+
+</body>
+</html>
