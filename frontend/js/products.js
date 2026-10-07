@@ -2,153 +2,374 @@
 // Products Management
 // ==========================================
 
-const productForm = document.getElementById("productForm");
-const productTableBody = document.getElementById("productTableBody");
-const productSearch = document.getElementById("productSearch");
-const productMessage = document.getElementById("productMessage");
-const categorySelect = document.getElementById("category");
+
+// ==========================================
+// DOM ELEMENTS
+// ==========================================
+
+const productForm =
+    document.getElementById("productForm");
+
+const productTableBody =
+    document.getElementById("productTableBody");
+
+const productSearch =
+    document.getElementById("productSearch");
+
+const productMessage =
+    document.getElementById("productMessage");
+
+const categorySelect =
+    document.getElementById("category");
+
+const productNameInput =
+    document.getElementById("productName");
+
+const priceInput =
+    document.getElementById("price");
+
+const quantityInput =
+    document.getElementById("quantity");
+
+const formTitle =
+    document.getElementById("productFormTitle");
+
+const submitButton =
+    document.getElementById("productSubmitBtn");
+
+const cancelButton =
+    document.getElementById("cancelEditBtn");
 
 
 // ==========================================
-// Load Categories
+// VARIABLES
+// ==========================================
+
+let editingProductId = null;
+
+let allProducts = [];
+
+let messageTimer = null;
+
+
+// ==========================================
+// SHOW MESSAGE
+// ==========================================
+
+function showMessage(message) {
+
+    productMessage.textContent = message;
+
+
+    if (messageTimer) {
+
+        clearTimeout(messageTimer);
+
+    }
+
+
+    messageTimer = setTimeout(
+        function () {
+
+            productMessage.textContent = "";
+
+        },
+        3000
+    );
+
+}
+
+
+// ==========================================
+// LOAD CATEGORIES
 // ==========================================
 
 async function loadCategories() {
 
     try {
 
-        const response = await fetch(
-            "../../backend/categories/get.php"
-        );
+        const response =
+            await fetch(
+                "../../backend/categories/get.php"
+            );
 
-        const categories = await response.json();
 
-        console.log("Categories:", categories);
+        if (!response.ok) {
 
-        categorySelect.innerHTML =
-            '<option value="">Select Category</option>';
-
-        if (Array.isArray(categories)) {
-
-            categories.forEach(category => {
-
-                const option = document.createElement("option");
-
-                option.value = category.id;
-                option.textContent = category.category_name;
-
-                categorySelect.appendChild(option);
-
-            });
+            throw new Error(
+                "Failed to load categories"
+            );
 
         }
 
-    } catch (error) {
 
-        console.error("Category loading error:", error);
+        const categories =
+            await response.json();
+
+
+        console.log(
+            "Categories:",
+            categories
+        );
+
 
         categorySelect.innerHTML =
-            '<option value="">Unable to load categories</option>';
+            `
+            <option value="">
+                Select Category
+            </option>
+            `;
+
+
+        if (Array.isArray(categories)) {
+
+            categories.forEach(
+                function (category) {
+
+                    const option =
+                        document.createElement(
+                            "option"
+                        );
+
+
+                    option.value =
+                        category.id;
+
+
+                    option.textContent =
+                        category.category_name;
+
+
+                    categorySelect.appendChild(
+                        option
+                    );
+
+                }
+            );
+
+        }
 
     }
+
+    catch (error) {
+
+        console.error(
+            "Category loading error:",
+            error
+        );
+
+
+        categorySelect.innerHTML =
+            `
+            <option value="">
+                Unable to load categories
+            </option>
+            `;
+
+    }
+
 }
 
 
 // ==========================================
-// Load Products
+// LOAD PRODUCTS
 // ==========================================
 
 async function loadProducts() {
 
     try {
 
-        const response = await fetch(
-            "../../backend/products/get.php"
+        const response =
+            await fetch(
+                "../../backend/products/get.php"
+            );
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                "Failed to load products"
+            );
+
+        }
+
+
+        const data =
+            await response.json();
+
+
+        console.log(
+            "Products:",
+            data
         );
 
-        const data = await response.json();
 
-        console.log("Products:", data);
+        let products = [];
 
-        const products = Array.isArray(data)
-            ? data
-            : data.products;
 
-        displayProducts(products);
+        if (Array.isArray(data)) {
 
-    } catch (error) {
+            products = data;
 
-        console.error("Error loading products:", error);
+        }
+
+        else if (
+            data &&
+            Array.isArray(data.products)
+        ) {
+
+            products =
+                data.products;
+
+        }
+
+
+        allProducts =
+            products;
+
+
+        displayProducts(
+            allProducts
+        );
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "Product loading error:",
+            error
+        );
+
 
         productTableBody.innerHTML = `
+
             <tr>
+
                 <td colspan="6">
-                    Unable to load products
+
+                    Unable to load products.
+
                 </td>
+
             </tr>
+
         `;
 
     }
+
 }
 
 
 // ==========================================
-// Display Products
+// DISPLAY PRODUCTS
 // ==========================================
 
 function displayProducts(products) {
 
     productTableBody.innerHTML = "";
 
-    if (!Array.isArray(products) || products.length === 0) {
+
+    if (
+        !Array.isArray(products) ||
+        products.length === 0
+    ) {
 
         productTableBody.innerHTML = `
+
             <tr>
+
                 <td colspan="6">
-                    No products available
+
+                    No products available.
+
                 </td>
+
             </tr>
+
         `;
 
         return;
+
     }
 
-    products.forEach(product => {
 
-        const row = document.createElement("tr");
+    products.forEach(
+        function (product) {
 
-        row.innerHTML = `
-            <td>${product.id}</td>
+            const row =
+                document.createElement("tr");
 
-            <td>${product.product_name}</td>
 
-            <td>${product.category_id ?? "-"}</td>
+            const categoryName =
+                product.category_name ||
+                product.category_id ||
+                "-";
 
-            <td>${product.price}</td>
 
-            <td>${product.quantity}</td>
+            row.innerHTML = `
 
-            <td>
+                <td>
+                    ${product.id || "-"}
+                </td>
 
-                <button
-                    class="btn-secondary"
-                    onclick="deleteProduct(${product.id})"
-                >
-                    Delete
-                </button>
 
-            </td>
-        `;
+                <td>
+                    ${product.product_name || "-"}
+                </td>
 
-        productTableBody.appendChild(row);
 
-    });
+                <td>
+                    ${categoryName}
+                </td>
+
+
+                <td>
+                    ${product.price || "0.00"}
+                </td>
+
+
+                <td>
+                    ${product.quantity || "0"}
+                </td>
+
+
+                <td>
+
+                    <button
+                        type="button"
+                        class="btn-primary edit-product-btn"
+                        onclick="editProduct(${product.id})"
+                    >
+                        Edit
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="btn-secondary delete-product-btn"
+                        onclick="deleteProduct(${product.id})"
+                    >
+                        Delete
+                    </button>
+
+                </td>
+
+            `;
+
+
+            productTableBody.appendChild(
+                row
+            );
+
+        }
+    );
 
 }
 
 
 // ==========================================
-// Add Product
+// ADD / UPDATE PRODUCT
 // ==========================================
 
 productForm.addEventListener(
@@ -157,55 +378,236 @@ productForm.addEventListener(
 
         event.preventDefault();
 
-        const formData = new FormData(productForm);
+
+        const productName =
+            productNameInput.value.trim();
+
+
+        const categoryId =
+            categorySelect.value;
+
+
+        const price =
+            priceInput.value;
+
+
+        const quantity =
+            quantityInput.value;
+
+
+        // ==================================
+        // VALIDATION
+        // ==================================
+
+        if (productName === "") {
+
+            showMessage(
+                "Please enter product name."
+            );
+
+            return;
+
+        }
+
+
+        if (categoryId === "") {
+
+            showMessage(
+                "Please select a category."
+            );
+
+            return;
+
+        }
+
+
+        if (
+            price === "" ||
+            Number(price) < 0
+        ) {
+
+            showMessage(
+                "Price cannot be negative."
+            );
+
+            return;
+
+        }
+
+
+        if (
+            quantity === "" ||
+            Number(quantity) < 0
+        ) {
+
+            showMessage(
+                "Quantity cannot be negative."
+            );
+
+            return;
+
+        }
+
+
+        // ==================================
+        // FORM DATA
+        // ==================================
+
+        const formData =
+            new FormData();
+
+
+        formData.append(
+            "product_name",
+            productName
+        );
+
+
+        formData.append(
+            "category_id",
+            categoryId
+        );
+
+
+        formData.append(
+            "price",
+            price
+        );
+
+
+        formData.append(
+            "quantity",
+            quantity
+        );
+
 
         try {
 
-            const response = await fetch(
-                "../../backend/products/add.php",
-                {
-                    method: "POST",
-                    body: formData
+
+            // ==================================
+            // UPDATE
+            // ==================================
+
+            if (
+                editingProductId !== null
+            ) {
+
+                formData.append(
+                    "id",
+                    editingProductId
+                );
+
+
+                const response =
+                    await fetch(
+                        "../../backend/products/update.php",
+                        {
+                            method: "POST",
+                            body: formData
+                        }
+                    );
+
+
+                const result =
+                    await response.text();
+
+
+                console.log(
+                    "Update response:",
+                    result
+                );
+
+
+                showMessage(
+                    result
+                );
+
+
+                if (
+                    response.ok &&
+                    result
+                        .toLowerCase()
+                        .includes("successfully")
+                ) {
+
+                    resetEditMode();
+
+                    await loadProducts();
+
                 }
-            );
-
-            const result = await response.text();
-
-            // Show message
-            productMessage.textContent = result;
-
-            // Hide message after 3 seconds
-            setTimeout(() => {
-
-                productMessage.textContent = "";
-
-            }, 3000);
-
-
-            if (result.includes("successfully")) {
-
-                productForm.reset();
-
-                loadProducts();
 
             }
 
-        } catch (error) {
+
+            // ==================================
+            // ADD
+            // ==================================
+
+            else {
+
+                const response =
+                    await fetch(
+                        "../../backend/products/add.php",
+                        {
+                            method: "POST",
+                            body: formData
+                        }
+                    );
+
+
+                const result =
+                    await response.text();
+
+
+                console.log(
+                    "Add response:",
+                    result
+                );
+
+
+                if (
+                    response.ok &&
+                    result
+                        .toLowerCase()
+                        .includes("successfully")
+                ) {
+
+                    showMessage(
+                        "Product added successfully."
+                    );
+
+
+                    productForm.reset();
+
+
+                    await loadProducts();
+
+                }
+
+                else {
+
+                    showMessage(
+                        result ||
+                        "Unable to add product."
+                    );
+
+                }
+
+            }
+
+        }
+
+        catch (error) {
 
             console.error(
-                "Error adding product:",
+                "Save product error:",
                 error
             );
 
-            productMessage.textContent =
-                "Unable to add product.";
 
-            // Hide error after 3 seconds
-            setTimeout(() => {
-
-                productMessage.textContent = "";
-
-            }, 3000);
+            showMessage(
+                "Unable to save product."
+            );
 
         }
 
@@ -214,14 +616,148 @@ productForm.addEventListener(
 
 
 // ==========================================
-// Delete Product
+// EDIT PRODUCT
+// ==========================================
+
+function editProduct(id) {
+
+    console.log(
+        "Edit clicked:",
+        id
+    );
+
+
+    const product =
+        allProducts.find(
+            function (item) {
+
+                return Number(item.id) ===
+                    Number(id);
+
+            }
+        );
+
+
+    if (!product) {
+
+        showMessage(
+            "Product not found."
+        );
+
+        return;
+
+    }
+
+
+    // ==================================
+    // STORE ID
+    // ==================================
+
+    editingProductId =
+        Number(product.id);
+
+
+    // ==================================
+    // FILL FORM
+    // ==================================
+
+    productNameInput.value =
+        product.product_name || "";
+
+
+    categorySelect.value =
+        String(
+            product.category_id || ""
+        );
+
+
+    priceInput.value =
+        product.price || "";
+
+
+    quantityInput.value =
+        product.quantity || "";
+
+
+    // ==================================
+    // CHANGE FORM
+    // ==================================
+
+    formTitle.textContent =
+        "Edit Product";
+
+
+    submitButton.textContent =
+        "Update Product";
+
+
+    cancelButton.style.display =
+        "inline-block";
+
+
+    // ==================================
+    // SCROLL TO FORM
+    // ==================================
+
+    productForm.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+    });
+
+}
+
+
+// ==========================================
+// CANCEL EDIT
+// ==========================================
+
+cancelButton.addEventListener(
+    "click",
+    function () {
+
+        resetEditMode();
+
+    }
+);
+
+
+// ==========================================
+// RESET EDIT MODE
+// ==========================================
+
+function resetEditMode() {
+
+    editingProductId = null;
+
+
+    productForm.reset();
+
+
+    formTitle.textContent =
+        "Add Product";
+
+
+    submitButton.textContent =
+        "Add Product";
+
+
+    cancelButton.style.display =
+        "none";
+
+}
+
+
+// ==========================================
+// DELETE PRODUCT
 // ==========================================
 
 async function deleteProduct(id) {
 
-    const confirmDelete = confirm(
-        "Are you sure you want to delete this product?"
-    );
+    const confirmDelete =
+        confirm(
+            "Are you sure you want to delete this product?"
+        );
+
 
     if (!confirmDelete) {
 
@@ -230,58 +766,58 @@ async function deleteProduct(id) {
     }
 
 
-    const formData = new FormData();
+    const formData =
+        new FormData();
 
-    formData.append("id", id);
+
+    formData.append(
+        "id",
+        id
+    );
 
 
     try {
 
-        const response = await fetch(
-            "../../backend/products/delete.php",
-            {
-                method: "POST",
-                body: formData
-            }
+        const response =
+            await fetch(
+                "../../backend/products/delete.php",
+                {
+                    method: "POST",
+                    body: formData
+                }
+            );
+
+
+        const result =
+            await response.text();
+
+
+        console.log(
+            "Delete response:",
+            result
         );
 
-        const result = await response.text();
+
+        showMessage(
+            result
+        );
 
 
-        // Show delete message
-        productMessage.textContent = result;
+        await loadProducts();
 
+    }
 
-        // Hide message after 3 seconds
-        setTimeout(() => {
-
-            productMessage.textContent = "";
-
-        }, 3000);
-
-
-        // Reload product list
-        loadProducts();
-
-
-    } catch (error) {
+    catch (error) {
 
         console.error(
-            "Error deleting product:",
+            "Delete error:",
             error
         );
 
 
-        productMessage.textContent =
-            "Unable to delete product.";
-
-
-        // Hide error after 3 seconds
-        setTimeout(() => {
-
-            productMessage.textContent = "";
-
-        }, 3000);
+        showMessage(
+            "Unable to delete product."
+        );
 
     }
 
@@ -289,12 +825,12 @@ async function deleteProduct(id) {
 
 
 // ==========================================
-// Search Products
+// SEARCH PRODUCTS
 // ==========================================
 
 productSearch.addEventListener(
     "input",
-    async function () {
+    function () {
 
         const searchValue =
             productSearch.value
@@ -302,53 +838,52 @@ productSearch.addEventListener(
                 .trim();
 
 
-        try {
-
-            const response = await fetch(
-                "../../backend/products/get.php"
-            );
-
-            const data = await response.json();
-
-
-            const products = Array.isArray(data)
-                ? data
-                : data.products;
-
-
-            const filteredProducts =
-                products.filter(product => {
+        const filteredProducts =
+            allProducts.filter(
+                function (product) {
 
                     const productName =
-                        String(product.product_name)
-                            .toLowerCase();
+                        String(
+                            product.product_name || ""
+                        )
+                        .toLowerCase();
 
-                    return productName.includes(
-                        searchValue
+
+                    const categoryName =
+                        String(
+                            product.category_name ||
+                            product.category_id ||
+                            ""
+                        )
+                        .toLowerCase();
+
+
+                    return (
+                        productName.includes(
+                            searchValue
+                        ) ||
+
+                        categoryName.includes(
+                            searchValue
+                        )
                     );
 
-                });
-
-
-            displayProducts(filteredProducts);
-
-
-        } catch (error) {
-
-            console.error(
-                "Product search error:",
-                error
+                }
             );
 
-        }
+
+        displayProducts(
+            filteredProducts
+        );
 
     }
 );
 
 
 // ==========================================
-// Page Load
+// PAGE LOAD
 // ==========================================
 
 loadCategories();
+
 loadProducts();

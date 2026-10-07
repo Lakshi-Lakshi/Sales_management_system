@@ -1,139 +1,183 @@
+// ==========================================
+// DASHBOARD
+// ==========================================
+
 console.log("DASHBOARD JS LOADED");
-console.log("Loading dashboard data...");
-
-// ===============================
-// DASHBOARD ELEMENTS
-// ===============================
-
-const totalProducts =
-    document.getElementById("totalProducts");
-
-const totalCustomers =
-    document.getElementById("totalCustomers");
-
-const totalSales =
-    document.getElementById("totalSales");
-
-const lowStock =
-    document.getElementById("lowStock");
-
-const recentSalesTable =
-    document.getElementById("recentSalesTable");
 
 
-// ===============================
-// CHECK HTML ELEMENTS
-// ===============================
-
-console.log(
-    "totalProducts element:",
-    totalProducts
-);
-
-console.log(
-    "totalCustomers element:",
-    totalCustomers
-);
-
-console.log(
-    "totalSales element:",
-    totalSales
-);
-
-console.log(
-    "lowStock element:",
-    lowStock
-);
-
-console.log(
-    "recentSalesTable element:",
-    recentSalesTable
-);
-
-
-// ===============================
-// LOAD DASHBOARD DATA
-// ===============================
+// ==========================================
+// LOAD DASHBOARD
+// ==========================================
 
 async function loadDashboard() {
 
+    console.log("Loading dashboard data...");
+
     try {
 
-        console.log("Fetching dashboard API...");
-
-
         const response = await fetch(
-            "../../backend/dashboard/get.php"
+            "../../backend/dashboard/get.php",
+            {
+                method: "GET",
+                cache: "no-store"
+            }
         );
 
 
         console.log(
-            "API request completed"
+            "Dashboard HTTP Status:",
+            response.status
         );
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                "HTTP Error: " + response.status
+            );
+
+        }
 
 
         const data = await response.json();
 
 
         console.log(
-            "Dashboard response:",
+            "Dashboard API Response:",
             data
         );
 
 
-        // ===============================
-        // CHECK RESPONSE
-        // ===============================
+        // ==========================================
+        // CHECK API RESPONSE
+        // ==========================================
 
         if (!data.success) {
 
             console.error(
-                "Dashboard data error"
+                "Dashboard API Error:",
+                data.message
             );
 
             return;
         }
 
 
-        // ===============================
-        // DASHBOARD CARD VALUES
-        // ===============================
+        // ==========================================
+        // GET HTML ELEMENTS
+        // ==========================================
 
-        totalProducts.textContent =
-            data.totalProducts;
-
-
-        totalCustomers.textContent =
-            data.totalCustomers;
+        const totalProductsElement =
+            document.getElementById(
+                "totalProducts"
+            );
 
 
-        totalSales.textContent =
-            data.totalSales;
+        const totalCustomersElement =
+            document.getElementById(
+                "totalCustomers"
+            );
 
 
-        lowStock.textContent =
-            data.lowStock;
+        const totalSalesElement =
+            document.getElementById(
+                "totalSales"
+            );
+
+
+        const lowStockElement =
+            document.getElementById(
+                "lowStock"
+            );
+
+
+        const recentSalesTable =
+            document.getElementById(
+                "recentSalesTable"
+            );
 
 
         console.log(
-            "Dashboard card values updated"
+            "Dashboard HTML Elements:",
+            {
+                totalProductsElement,
+                totalCustomersElement,
+                totalSalesElement,
+                lowStockElement,
+                recentSalesTable
+            }
         );
 
 
-        // ===============================
-        // RECENT SALES
-        // ===============================
+        // ==========================================
+        // UPDATE TOTAL PRODUCTS
+        // ==========================================
 
-        displayRecentSales(
-            data.recentSales
-        );
+        if (totalProductsElement) {
+
+            totalProductsElement.innerText =
+                data.totalProducts;
+
+        }
+
+
+        // ==========================================
+        // UPDATE TOTAL CUSTOMERS
+        // ==========================================
+
+        if (totalCustomersElement) {
+
+            totalCustomersElement.innerText =
+                data.totalCustomers;
+
+        }
+
+
+        // ==========================================
+        // UPDATE TOTAL SALES
+        // ==========================================
+
+        if (totalSalesElement) {
+
+            totalSalesElement.innerText =
+                data.totalSales;
+
+        }
+
+
+        // ==========================================
+        // UPDATE LOW STOCK
+        // ==========================================
+
+        if (lowStockElement) {
+
+            lowStockElement.innerText =
+                data.lowStock;
+
+        }
+
+
+        // ==========================================
+        // DISPLAY RECENT SALES
+        // ==========================================
+
+        if (recentSalesTable) {
+
+            displayRecentSales(
+                data.recentSales,
+                recentSalesTable
+            );
+
+        }
 
 
         console.log(
-            "Recent sales displayed"
+            "Dashboard loaded successfully."
         );
 
-    } catch (error) {
+    }
+
+    catch (error) {
 
         console.error(
             "Dashboard loading error:",
@@ -145,25 +189,28 @@ async function loadDashboard() {
 }
 
 
-// ===============================
+// ==========================================
 // DISPLAY RECENT SALES
-// ===============================
+// ==========================================
 
-function displayRecentSales(sales) {
+function displayRecentSales(
+    sales,
+    table
+) {
 
-    recentSalesTable.innerHTML = "";
+    table.innerHTML = "";
 
 
-    // ===============================
-    // NO SALES DATA
-    // ===============================
+    // ==========================================
+    // NO SALES
+    // ==========================================
 
     if (
         !Array.isArray(sales) ||
         sales.length === 0
     ) {
 
-        recentSalesTable.innerHTML = `
+        table.innerHTML = `
             <tr>
                 <td colspan="6">
                     No sales data available
@@ -175,9 +222,9 @@ function displayRecentSales(sales) {
     }
 
 
-    // ===============================
+    // ==========================================
     // DISPLAY SALES
-    // ===============================
+    // ==========================================
 
     sales.forEach(function (sale) {
 
@@ -188,7 +235,7 @@ function displayRecentSales(sales) {
         row.innerHTML = `
 
             <td>
-                ${sale.id}
+                ${sale.id ?? "-"}
             </td>
 
             <td>
@@ -214,15 +261,28 @@ function displayRecentSales(sales) {
         `;
 
 
-        recentSalesTable.appendChild(row);
+        table.appendChild(row);
 
     });
 
 }
 
 
-// ===============================
-// LOAD DASHBOARD
-// ===============================
+// ==========================================
+// START
+// ==========================================
 
-loadDashboard();
+if (
+    document.readyState === "loading"
+) {
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        loadDashboard
+    );
+
+} else {
+
+    loadDashboard();
+
+}

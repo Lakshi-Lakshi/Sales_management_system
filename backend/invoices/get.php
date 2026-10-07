@@ -1,47 +1,114 @@
 <?php
 
+// ===============================
+// DATABASE CONNECTION
+// ===============================
+
 include "../config/db.php";
 
-$sql = "SELECT
-            invoices.id,
-            invoices.sale_id,
-            invoices.product_details,
-            invoices.quantity,
-            invoices.price,
-            invoices.total,
-            invoices.invoice_date,
-            sales.customer_id,
-            customers.customer_name
-        FROM invoices
-        INNER JOIN sales
-            ON invoices.sale_id = sales.id
-        LEFT JOIN customers
-            ON sales.customer_id = customers.id
-        ORDER BY invoices.id DESC";
+
+// ===============================
+// RESPONSE HEADER
+// ===============================
+
+header("Content-Type: application/json");
+
+
+// ===============================
+// SQL QUERY
+// ===============================
+
+$sql = "
+
+    SELECT
+
+        invoices.id,
+
+        invoices.sale_id,
+
+        invoices.product_details,
+
+        invoices.quantity,
+
+        invoices.price,
+
+        invoices.total,
+
+        invoices.invoice_date,
+
+        sales.customer_id,
+
+        customers.customer_name
+
+    FROM invoices
+
+    INNER JOIN sales
+        ON invoices.sale_id = sales.id
+
+    LEFT JOIN customers
+        ON sales.customer_id = customers.id
+
+    ORDER BY invoices.id DESC
+
+";
+
+
+// ===============================
+// EXECUTE QUERY
+// ===============================
 
 $result = $conn->query($sql);
 
-$invoices = [];
 
-if ($result) {
+// ===============================
+// CHECK RESULT
+// ===============================
 
-    while ($row = $result->fetch_assoc()) {
-        $invoices[] = $row;
-    }
-
-    header("Content-Type: application/json");
-
-    echo json_encode($invoices);
-
-} else {
-
-    header("Content-Type: application/json");
+if (!$result) {
 
     echo json_encode([
-        "error" => "Failed to retrieve invoices"
+
+        "success" => false,
+
+        "error" => $conn->error
+
     ]);
+
+    $conn->close();
+
+    exit;
+
 }
+
+
+// ===============================
+// STORE INVOICES
+// ===============================
+
+$invoices = [];
+
+
+while ($row = $result->fetch_assoc()) {
+
+    $invoices[] = $row;
+
+}
+
+
+// ===============================
+// RETURN JSON
+// ===============================
+
+echo json_encode(
+    $invoices
+);
+
+
+// ===============================
+// CLOSE DATABASE
+// ===============================
 
 $conn->close();
 
 ?>
+

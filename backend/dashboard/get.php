@@ -13,9 +13,19 @@ $productQuery = $conn->query(
     "SELECT COUNT(*) AS total FROM products"
 );
 
+if (!$productQuery) {
+
+    echo json_encode([
+        "success" => false,
+        "message" => "Products query failed: " . $conn->error
+    ]);
+
+    exit;
+}
+
 $productData = $productQuery->fetch_assoc();
 
-$totalProducts = $productData["total"];
+$totalProducts = (int) $productData["total"];
 
 
 // ===============================
@@ -26,9 +36,19 @@ $customerQuery = $conn->query(
     "SELECT COUNT(*) AS total FROM customers"
 );
 
+if (!$customerQuery) {
+
+    echo json_encode([
+        "success" => false,
+        "message" => "Customers query failed: " . $conn->error
+    ]);
+
+    exit;
+}
+
 $customerData = $customerQuery->fetch_assoc();
 
-$totalCustomers = $customerData["total"];
+$totalCustomers = (int) $customerData["total"];
 
 
 // ===============================
@@ -39,16 +59,24 @@ $salesQuery = $conn->query(
     "SELECT COUNT(*) AS total FROM sales"
 );
 
+if (!$salesQuery) {
+
+    echo json_encode([
+        "success" => false,
+        "message" => "Sales query failed: " . $conn->error
+    ]);
+
+    exit;
+}
+
 $salesData = $salesQuery->fetch_assoc();
 
-$totalSales = $salesData["total"];
+$totalSales = (int) $salesData["total"];
 
 
 // ===============================
 // LOW STOCK
 // ===============================
-
-// Products with quantity <= 10
 
 $lowStockQuery = $conn->query(
     "SELECT COUNT(*) AS total
@@ -56,9 +84,19 @@ $lowStockQuery = $conn->query(
      WHERE quantity <= 10"
 );
 
+if (!$lowStockQuery) {
+
+    echo json_encode([
+        "success" => false,
+        "message" => "Low stock query failed: " . $conn->error
+    ]);
+
+    exit;
+}
+
 $lowStockData = $lowStockQuery->fetch_assoc();
 
-$lowStock = $lowStockData["total"];
+$lowStock = (int) $lowStockData["total"];
 
 
 // ===============================
@@ -87,13 +125,21 @@ $recentSalesQuery = $conn->query(
      LIMIT 5"
 );
 
+if (!$recentSalesQuery) {
+
+    echo json_encode([
+        "success" => false,
+        "message" => "Recent sales query failed: " . $conn->error
+    ]);
+
+    exit;
+}
+
 
 $recentSales = [];
 
 
-while (
-    $row = $recentSalesQuery->fetch_assoc()
-) {
+while ($row = $recentSalesQuery->fetch_assoc()) {
 
     $recentSales[] = $row;
 

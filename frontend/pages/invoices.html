@@ -1,24 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Invoices - Sales Management System</title>
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-    <link rel="stylesheet" href="../css/style.css">
+    <title>
+        Invoices - Sales Management System
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="../css/style.css"
+    >
 
 </head>
+
 
 <body>
 
 <div class="app">
 
-    <!-- Sidebar -->
+
+    <!-- =============================== -->
+    <!-- SIDEBAR -->
+    <!-- =============================== -->
+
     <aside class="sidebar">
 
-        <h2>Sales Management</h2>
+        <h2>
+            Sales Management
+        </h2>
+
 
         <nav>
 
@@ -26,37 +44,49 @@
                 Dashboard
             </a>
 
+
             <a href="products.html">
                 Products
             </a>
+
 
             <a href="categories.html">
                 Categories
             </a>
 
+
             <a href="customers.html">
                 Customers
             </a>
+
 
             <a href="suppliers.html">
                 Suppliers
             </a>
 
+
             <a href="sales.html">
                 Sales
             </a>
+
 
             <a href="purchases.html">
                 Purchases
             </a>
 
+
             <a href="inventory.html">
                 Inventory
             </a>
 
-            <a href="invoices.html" class="active">
+
+            <a
+                href="invoices.html"
+                class="active"
+            >
                 Invoices
             </a>
+
 
             <a href="reports.html">
                 Reports
@@ -64,31 +94,54 @@
 
         </nav>
 
-        <a href="login.html" class="logout-btn">
+
+        <a
+            href="login.html"
+            class="logout-btn"
+        >
             Logout
         </a>
 
     </aside>
 
 
-    <!-- Main Content -->
+
+    <!-- =============================== -->
+    <!-- MAIN CONTENT -->
+    <!-- =============================== -->
+
     <main class="main-content">
+
+
+        <!-- TOP BAR -->
 
         <div class="topbar">
 
-            <h1>Invoices</h1>
+            <h1>
+                Invoices
+            </h1>
 
-            <p>View and manage sales invoices</p>
+            <p>
+                View and manage sales invoices
+            </p>
 
         </div>
 
 
-        <!-- Search Invoice -->
+
+        <!-- =============================== -->
+        <!-- INVOICE LIST -->
+        <!-- =============================== -->
+
         <section class="content-section">
+
 
             <div class="section-header">
 
-                <h2>Invoice List</h2>
+                <h2>
+                    Invoice List
+                </h2>
+
 
                 <input
                     type="text"
@@ -100,31 +153,59 @@
             </div>
 
 
+
+            <!-- INVOICE TABLE -->
+
             <table class="data-table">
+
 
                 <thead>
 
                     <tr>
 
-                        <th>Invoice ID</th>
+                        <th>
+                            Invoice ID
+                        </th>
 
-                        <th>Sale ID</th>
 
-                        <th>Product Details</th>
+                        <th>
+                            Sale ID
+                        </th>
 
-                        <th>Quantity</th>
 
-                        <th>Price</th>
+                        <th>
+                            Product Details
+                        </th>
 
-                        <th>Total</th>
 
-                        <th>Invoice Date</th>
+                        <th>
+                            Quantity
+                        </th>
 
-                        <th>Action</th>
+
+                        <th>
+                            Price
+                        </th>
+
+
+                        <th>
+                            Total
+                        </th>
+
+
+                        <th>
+                            Invoice Date
+                        </th>
+
+
+                        <th>
+                            Action
+                        </th>
 
                     </tr>
 
                 </thead>
+
 
 
                 <tbody id="invoiceTableBody">
@@ -132,25 +213,40 @@
                     <tr>
 
                         <td colspan="8">
+
                             No invoices available
+
                         </td>
 
                     </tr>
 
                 </tbody>
 
+
             </table>
+
 
         </section>
 
 
-        <!-- Invoice Details -->
+
+        <!-- =============================== -->
+        <!-- INVOICE DETAILS -->
+        <!-- =============================== -->
+
         <section class="content-section">
 
-            <h2>Invoice Details</h2>
+
+            <h2>
+                Invoice Details
+            </h2>
 
 
-            <div id="invoiceDetails" class="invoice-box">
+
+            <div
+                id="invoiceDetails"
+                class="invoice-box"
+            >
 
                 <p>
                     Select an invoice to view details.
@@ -159,22 +255,39 @@
             </div>
 
 
+
+            <!-- PRINT BUTTON -->
+
             <button
                 type="button"
                 id="printInvoiceBtn"
                 class="btn-primary"
             >
+
                 Print Invoice
+
             </button>
+
 
         </section>
 
+
     </main>
+
 
 </div>
 
 
-<script src="../js/invoices.js"></script>
+
+<!-- =============================== -->
+<!-- JAVASCRIPT -->
+<!-- =============================== -->
+
+<script src="../js/products.js"></script>
+<script src="../js/access-control.js"></script>
+
 
 </body>
+
 </html>
+

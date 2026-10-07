@@ -1,59 +1,146 @@
+
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
     <title>Products - Sales Management System</title>
 
-    <link rel="stylesheet" href="../css/style.css">
+    <link
+        rel="stylesheet"
+        href="../css/style.css"
+    >
+
 </head>
+
 
 <body>
 
 <div class="app">
 
-    <!-- Sidebar -->
+
+    <!-- ==========================================
+         SIDEBAR
+    =========================================== -->
+
     <aside class="sidebar">
 
         <h2>Sales Management</h2>
 
         <nav>
-            <a href="dashboard.html">Dashboard</a>
-            <a href="products.html" class="active">Products</a>
-            <a href="categories.html">Categories</a>
-            <a href="customers.html">Customers</a>
-            <a href="suppliers.html">Suppliers</a>
-            <a href="sales.html">Sales</a>
-            <a href="purchases.html">Purchases</a>
-            <a href="inventory.html">Inventory</a>
-            <a href="invoices.html">Invoices</a>
-            <a href="reports.html">Reports</a>
+
+            <a href="dashboard.html">
+                Dashboard
+            </a>
+
+            <a
+                href="products.html"
+                class="active"
+            >
+                Products
+            </a>
+
+            <a href="categories.html">
+                Categories
+            </a>
+
+            <a href="customers.html">
+                Customers
+            </a>
+
+            <a href="suppliers.html">
+                Suppliers
+            </a>
+
+            <a href="sales.html">
+                Sales
+            </a>
+
+            <a href="purchases.html">
+                Purchases
+            </a>
+
+            <a href="inventory.html">
+                Inventory
+            </a>
+
+            <a href="invoices.html">
+                Invoices
+            </a>
+
+            <a href="reports.html">
+                Reports
+            </a>
+
         </nav>
 
-        <a href="login.html" class="logout-btn">Logout</a>
+
+        <a
+            href="login.html"
+            class="logout-btn"
+        >
+            Logout
+        </a>
 
     </aside>
 
 
-    <!-- Main Content -->
+
+    <!-- ==========================================
+         MAIN CONTENT
+    =========================================== -->
+
     <main class="main-content">
 
+
+        <!-- TOPBAR -->
+
         <div class="topbar">
-            <h1>Products</h1>
-            <p>Manage products</p>
+
+            <h1>
+                Products
+            </h1>
+
+            <p>
+                Manage products
+            </p>
+
         </div>
 
 
-        <!-- Add Product -->
+
+        <!-- ==========================================
+             ADD / EDIT PRODUCT FORM
+        =========================================== -->
+
         <section class="content-section">
 
-            <h2>Add Product</h2>
+            <h2 id="productFormTitle">
+                Add Product
+            </h2>
 
-            <form id="productForm" class="form-grid">
+
+            <form
+                id="productForm"
+                class="form-grid"
+            >
+
+
+                <!-- PRODUCT NAME -->
 
                 <div class="form-group">
-                    <label for="productName">Product Name</label>
+
+                    <label for="productName">
+                        Product Name
+                    </label>
+
                     <input
                         type="text"
                         id="productName"
@@ -61,60 +148,127 @@
                         placeholder="Enter product name"
                         required
                     >
+
                 </div>
 
-                <div class="form-group">
-                    <label for="category">Category</label>
 
-                    <select id="category" name="category_id" required>
-                        <option value="">Select Category</option>
+
+                <!-- CATEGORY -->
+
+                <div class="form-group">
+
+                    <label for="category">
+                        Category
+                    </label>
+
+                    <select
+                        id="category"
+                        name="category_id"
+                        required
+                    >
+
+                        <option value="">
+                            Select Category
+                        </option>
+
                     </select>
+
                 </div>
 
+
+
+                <!-- PRICE -->
+
                 <div class="form-group">
-                    <label for="price">Price</label>
+
+                    <label for="price">
+                        Price
+                    </label>
 
                     <input
                         type="number"
                         id="price"
                         name="price"
                         step="0.01"
+                        min="0"
                         placeholder="Enter price"
                         required
                     >
+
                 </div>
 
+
+
+                <!-- QUANTITY -->
+
                 <div class="form-group">
-                    <label for="quantity">Quantity</label>
+
+                    <label for="quantity">
+                        Quantity
+                    </label>
 
                     <input
                         type="number"
                         id="quantity"
                         name="quantity"
+                        min="0"
                         placeholder="Enter quantity"
                         required
                     >
+
                 </div>
+
+
+
+                <!-- BUTTONS -->
 
                 <div class="form-actions">
-                    <button type="submit" class="btn-primary">
+
+                    <button
+                        type="submit"
+                        id="productSubmitBtn"
+                        class="btn-primary"
+                    >
                         Add Product
                     </button>
+
+
+                    <button
+                        type="button"
+                        id="cancelEditBtn"
+                        class="btn-secondary"
+                        style="display: none;"
+                    >
+                        Cancel
+                    </button>
+
                 </div>
 
+
             </form>
+
+
+            <!-- MESSAGE -->
 
             <p id="productMessage"></p>
 
         </section>
 
 
-        <!-- Product List -->
+
+        <!-- ==========================================
+             PRODUCT LIST
+        =========================================== -->
+
         <section class="content-section">
+
 
             <div class="section-header">
 
-                <h2>Product List</h2>
+                <h2>
+                    Product List
+                </h2>
+
 
                 <input
                     type="text"
@@ -126,25 +280,52 @@
             </div>
 
 
+
+            <!-- PRODUCT TABLE -->
+
             <table class="data-table">
 
                 <thead>
+
                     <tr>
-                        <th>ID</th>
-                        <th>Product Name</th>
-                        <th>Category</th>
-                        <th>Price</th>
-                        <th>Quantity</th>
-                        <th>Actions</th>
+
+                        <th>
+                            ID
+                        </th>
+
+                        <th>
+                            Product Name
+                        </th>
+
+                        <th>
+                            Category
+                        </th>
+
+                        <th>
+                            Price
+                        </th>
+
+                        <th>
+                            Quantity
+                        </th>
+
+                        <th>
+                            Actions
+                        </th>
+
                     </tr>
+
                 </thead>
+
 
                 <tbody id="productTableBody">
 
                     <tr>
+
                         <td colspan="6">
-                            No products available
+                            Loading products...
                         </td>
+
                     </tr>
 
                 </tbody>
@@ -153,11 +334,22 @@
 
         </section>
 
+
     </main>
 
 </div>
 
+
+
+<!-- ==========================================
+     JAVASCRIPT
+========================================== -->
+
 <script src="../js/products.js"></script>
+<script src="../js/access-control.js"></script>
+
 
 </body>
+
 </html>
+
