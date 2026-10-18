@@ -1,4 +1,5 @@
-// ==========================================
+
+ // ==========================================
 // Categories Management
 // ==========================================
 
@@ -6,217 +7,205 @@ const categoryForm = document.getElementById("categoryForm");
 const categoryTableBody = document.getElementById("categoryTableBody");
 const categoryMessage = document.getElementById("categoryMessage");
 
+// Backend URLs
+const getCategoryURL = "../../backend/categories/get.php";
+const addCategoryURL = "../../backend/categories/add.php";
+const deleteCategoryURL = "../../backend/categories/delete.php";
+
+// ==========================================
+// Show Message
+// ==========================================
+
+function showCategoryMessage(message, isSuccess = false) {
+    categoryMessage.textContent = message;
+    categoryMessage.style.color = isSuccess ? "green" : "red";
+
+    setTimeout(() => {
+        categoryMessage.textContent = "";
+    }, 4000);
+}
 
 // ==========================================
 // Load Categories
 // ==========================================
 
 async function loadCategories() {
-
     try {
+        const response = await fetch(getCategoryURL);
 
-        const response = await fetch(
-            "../../backend/categories/get.php"
-        );
+        if (!response.ok) {
+            throw new Error("Unable to fetch categories.");
+        }
 
         const data = await response.json();
 
-        console.log("Categories:", data);
+        if (!Array.isArray(data)) {
+            throw new Error(data.error || "Invalid category data.");
+        }
 
         displayCategories(data);
 
     } catch (error) {
-
-        console.error(
-            "Error loading categories:",
-            error
-        );
+        console.error("Error loading categories:", error);
 
         categoryTableBody.innerHTML = `
             <tr>
-                <td colspan="4">
-                    Unable to load categories
-                </td>
+                <td colspan="4">Unable to load categories.</td>
             </tr>
         `;
     }
 }
-
 
 // ==========================================
 // Display Categories
 // ==========================================
 
 function displayCategories(categories) {
-
     categoryTableBody.innerHTML = "";
 
-    if (!Array.isArray(categories) || categories.length === 0) {
-
+    if (categories.length === 0) {
         categoryTableBody.innerHTML = `
             <tr>
-                <td colspan="4">
-                    No categories available
-                </td>
+                <td colspan="4">No categories available</td>
             </tr>
         `;
-
         return;
     }
 
     categories.forEach(category => {
-
         const row = document.createElement("tr");
 
-        row.innerHTML = `
-            <td>${category.id}</td>
+        const idCell = document.createElement("td");
+        idCell.textContent = category.id;
 
-            <td>${category.category_name}</td>
+        const nameCell = document.createElement("td");
+        nameCell.textContent = category.category_name;
 
-            <td>${category.created_at ?? "-"}</td>
+        const dateCell = document.createElement("td");
+        dateCell.textContent = category.created_at || "-";
 
-            <td>
+        const actionCell = document.createElement("td");
+        const deleteButton = document.createElement("button");
 
-                <button
-                    class="btn-secondary"
-                    onclick="deleteCategory(${category.id})"
-                >
-                    Delete
-                </button>
+        deleteButton.type = "button";
+        deleteButton.className = "btn-secondary";
+        deleteButton.textContent = "Delete";
 
-            </td>
-        `;
+        deleteButton.addEventListener("click", () => {
+            deleteCategory(category.id);
+        });
 
+        actionCell.appendChild(deleteButton);
+
+        row.append(idCell, nameCell, dateCell, actionCell);
         categoryTableBody.appendChild(row);
-
     });
-
 }
-
 
 // ==========================================
 // Add Category
 // ==========================================
 
-categoryForm.addEventListener(
-    "submit",
-    async function (event) {
+categoryForm.addEventListener("submit", async function (event) {
+    event.preventDefault();
 
-        event.preventDefault();
+    const categoryInput = document.getElementById("categoryName");
+    const categoryName = categoryInput.value.trim();
 
-        const formData = new FormData(categoryForm);
+    if (categoryName === "") {
+        showCategoryMessage("Please enter a category name.");
+        categoryInput.focus();
+        return;
+    }
 
-        try {
+    const formData = new FormData();
+    formData.append("category_name", categoryName);
 
-            const response = await fetch(
-                "../../backend/categories/add.php",
-                {
-                    method: "POST",
-                    body: formData
-                }
-            );
+    const submitButton = categoryForm.querySelector(
+        'button[type="submit"]'
+    );
 
-            const result = await response.text();
+    submitButton.disabled = true;
+    submitButton.textContent = "Adding...";
 
-            // Show message
-            categoryMessage.textContent = result;
+    try {
+        const response = await fetch(addCategoryURL, {
+            method: "POST",
+            body: formData
+        });
 
-            // Hide message after 3 seconds
-            setTimeout(() => {
-                categoryMessage.textContent = "";
-            }, 3000);
+        const result = (await response.text()).trim();
 
-            if (result.includes("successfully")) {
+        console.log("Add category response:", response.status, result);
 
-                categoryForm.reset();
-
-                loadCategories();
-
-            }
-
-        } catch (error) {
-
-            console.error(
-                "Error adding category:",
-                error
-            );
-
-            categoryMessage.textContent =
-                "Unable to add category.";
-
-            // Hide error message after 3 seconds
-            setTimeout(() => {
-                categoryMessage.textContent = "";
-            }, 3000);
-
+        if (!response.ok) {
+            throw new Error(result || "Server error while adding category.");
         }
 
-    }
-);
+        if (result.toLowerCase().includes("category added successfully")) {
+            showCategoryMessage(result, true);
+            categoryForm.reset();
+            await loadCategories();
+        } else {
+            showCategoryMessage(result || "Category could not be added.");
+        }
 
+    } catch (error) {
+        console.error("Error adding category:", error);
+        showCategoryMessage(error.message || "Unable to add category.");
+    } finally {
+        submitButton.disabled = false;
+        submitButton.textContent = "Add Category";
+    }
+});
 
 // ==========================================
 // Delete Category
 // ==========================================
 
 async function deleteCategory(id) {
-
-    const confirmDelete = confirm(
-        "Are you sure you want to delete this category?"
-    );
-
-    if (!confirmDelete) {
+    if (!confirm("Are you sure you want to delete this category?")) {
         return;
     }
 
     const formData = new FormData();
-
     formData.append("id", id);
 
     try {
+        const response = await fetch(deleteCategoryURL, {
+            method: "POST",
+            body: formData
+        });
 
-        const response = await fetch(
-            "../../backend/categories/delete.php",
-            {
-                method: "POST",
-                body: formData
-            }
-        );
+        const result = (await response.text()).trim();
 
-        const result = await response.text();
+        console.log("Delete category response:", response.status, result);
 
-        // Show delete message
-        categoryMessage.textContent = result;
+        if (!response.ok) {
+            throw new Error(result || "Failed to delete category.");
+        }
 
-        // Hide message after 3 seconds
-        setTimeout(() => {
-            categoryMessage.textContent = "";
-        }, 3000);
-
-        loadCategories();
+        if (result.toLowerCase().includes("category deleted successfully")) {
+            showCategoryMessage(result, true);
+            await loadCategories();
+        } else {
+            showCategoryMessage(result || "Category could not be deleted.");
+        }
 
     } catch (error) {
-
-        console.error(
-            "Error deleting category:",
-            error
-        );
-
-        categoryMessage.textContent =
-            "Unable to delete category.";
-
-        // Hide error message after 3 seconds
-        setTimeout(() => {
-            categoryMessage.textContent = "";
-        }, 3000);
-
+        console.error("Error deleting category:", error);
+        showCategoryMessage(error.message || "Unable to delete category.");
     }
-
 }
 
-
 // ==========================================
-// Load Categories when page opens
+// Load Categories on Page Open
 // ==========================================
 
-loadCategories();
+if (categoryForm && categoryTableBody && categoryMessage) {
+    loadCategories();
+} else {
+    console.error(
+        "Category page elements not found. Check categories.html IDs."
+    );
+}
