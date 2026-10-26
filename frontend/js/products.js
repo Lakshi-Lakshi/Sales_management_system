@@ -368,31 +368,56 @@ function displayProducts(products) {
 }
 
 
-// ==========================================
-// ADD / UPDATE PRODUCT
-// ==========================================
+// ==================================
+// ADD
+// ==================================
 
-productForm.addEventListener(
-    "submit",
-    async function (event) {
+    else {
 
-        event.preventDefault();
+        // Check duplicate product name
+        const duplicateProduct = allProducts.some(
+            function (product) {
+                return (
+                    String(product.product_name || "")
+                        .trim()
+                        .toLowerCase() === productName.toLowerCase()
+                );
+            }
+        );
 
+        if (duplicateProduct) {
+            showMessage("This product already exists.");
+            return;
+        }
 
-        const productName =
-            productNameInput.value.trim();
+        const response = await fetch(
+            "../../backend/products/add.php",
+            {
+                method: "POST",
+                body: formData
+            }
+        );
 
+        const result = await response.text();
 
-        const categoryId =
-            categorySelect.value;
+        console.log("Add response:", result);
 
+        if (
+            response.ok &&
+            result.toLowerCase().includes("successfully")
+        ) {
+            showMessage("Product added successfully.");
 
-        const price =
-            priceInput.value;
+            productForm.reset();
 
-
-        const quantity =
-            quantityInput.value;
+            await loadProducts();
+        }
+        else {
+            showMessage(
+                result || "Unable to add product."
+            );
+        }
+    }
 
 
         // ==================================

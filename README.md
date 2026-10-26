@@ -690,3 +690,55 @@ The project demonstrates the use of frontend technologies, backend development, 
 **Development Environment:** XAMPP
 
 **Repository:** GitHub
+
+
+postman test URL
+
+1. Product & Category Management
+
+Module	Method	Postman URL
+Get Products	GET	http://localhost/SMS%20final%20project/backend/products/get.php
+Add Product	POST	http://localhost/SMS%20final%20project/backend/products/add.php
+Update Product	POST	http://localhost/SMS%20final%20project/backend/products/update.php
+Delete Product	POST	http://localhost/SMS%20final%20project/backend/products/delete.php
+Get Categories	GET	http://localhost/SMS%20final%20project/backend/categories/get.php
+Add Category	POST	http://localhost/SMS%20final%20project/backend/categories/add.php
+
+
+2. Customer & Supplier Management
+
+Module	Method	Postman URL
+Get Customers	GET	http://localhost/SMS%20final%20project/backend/customers/get.php
+Add Customer	POST	http://localhost/SMS%20final%20project/backend/customers/add.php
+Update Customer	POST	http://localhost/SMS%20final%20project/backend/customers/update.php
+Delete Customer	POST	http://localhost/SMS%20final%20project/backend/customers/delete.php
+Get Suppliers	GET	http://localhost/SMS%20final%20project/backend/suppliers/get.php
+Add Supplier	POST	http://localhost/SMS%20final%20project/backend/suppliers/add.php
+Update Supplier	POST	http://localhost/SMS%20final%20project/backend/suppliers/update.php
+Delete Supplier	POST	http://localhost/SMS%20final%20project/backend/suppliers/delete.php
+
+
+3. Sales & Purchase Management
+
+Module	Method	Postman URL
+Get Sales	GET	http://localhost/SMS%20final%20project/backend/sales/get.php
+Add Sale	POST	http://localhost/SMS%20final%20project/backend/sales/add.php
+Get Purchases	GET	http://localhost/SMS%20final%20project/backend/purchases/get.php
+Add Purchase	POST	http://localhost/SMS%20final%20project/backend/purchases/add.php
+
+
+4. Inventory Management
+
+Module	Method	Postman URL
+Get Inventory	GET	http://localhost/SMS%20final%20project/backend/inventory/get.php
+Stock In	POST	http://localhost/SMS%20final%20project/backend/inventory/stock_in.php
+Stock Out	POST	http://localhost/SMS%20final%20project/backend/inventory/stock_out.php
+
+
+5. Invoice, Reports & Dashboard
+
+Module	Method	Postman URL
+Get Invoices	GET	http://localhost/SMS%20final%20project/backend/invoices/get.php
+Get Invoice Details	GET	http://localhost/SMS%20final%20project/backend/invoices/details.php
+Dashboard Data	GET	http://localhost/SMS%20final%20project/backend/dashboard/get.php
+Reports	GET	http://localhost/SMS%20final%20project/backend/reports/get.php
