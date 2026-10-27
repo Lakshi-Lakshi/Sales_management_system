@@ -81,7 +81,7 @@ $totalSales = (int) $salesData["total"];
 $lowStockQuery = $conn->query(
     "SELECT COUNT(*) AS total
      FROM products
-     WHERE quantity <= 10"
+     WHERE quantity <= 5"
 );
 
 if (!$lowStockQuery) {
